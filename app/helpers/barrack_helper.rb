@@ -1,0 +1,2 @@
+module BarrackHelper
+end

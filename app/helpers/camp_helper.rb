@@ -1,0 +1,3 @@
+module CampHelper
+
+end
