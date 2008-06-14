@@ -1,0 +1,14 @@
+room1:
+  id: 1
+  code: 001
+  barrack: barrack1
+
+room2:
+  id: 2
+  code: 002
+  barrack: barrack1
+
+room3:
+  id: 3
+  code: 003
+  barrack: barrack1

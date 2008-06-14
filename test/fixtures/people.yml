@@ -1,0 +1,11 @@
+jonny:
+  id: 1
+  first_name: Jonny
+  last_name: Heggheim
+  company: jonnyware
+
+per:
+  id: 2
+  first_name: Per
+  last_name: Nesepirker
+  company: jonnyware

@@ -1,0 +1,11 @@
+barrack1:
+  id: 1
+  code: "BR1"
+  name: "Barrack 1"
+  camp: jonny
+
+barrack2:
+  id: 2
+  code: "BR2"
+  name: "Barrack 2"
+  camp: jonny
