@@ -1,0 +1,20 @@
+development:
+ adapter: mysql
+ host: localhost
+ database: booking_dev
+ username: root
+ password: rema1000
+
+test:
+ adapter: mysql
+ host: localhost
+ database: booking_test
+ username: root
+ password: rema1000
+
+production:
+ adapter: mysql
+ host: localhost
+ database: booking_prod
+ username: root
+ password: rema1000
