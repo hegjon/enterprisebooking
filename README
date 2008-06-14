@@ -1,0 +1,90 @@
+== Welcome to EnterpriseBooking server
+
+Bla bla
+
+
+== Getting Started
+
+1. Install Rails.
+1. At the command prompt, start a new instance using the <tt>script/server</tt> (run with --help for options) command
+
+
+== Web Servers
+
+By default, EnterpriseBooking will try to use Mongrel and lighttpd if they are installed, otherwise
+EnterpriseBooking will use WEBrick, the webserver that ships with Ruby. When you run script/server,
+EnterpriseBooking will check if Mongrel exists, then lighttpd and finally fall back to WEBrick. This ensures
+that you can always get up and running quickly.
+
+
+== Console
+
+You can interact with the domain model by starting the console through <tt>script/console</tt>.
+Here you'll have all parts of the application configured, just like it is when the
+application is running. You can inspect domain models, change values, and save to the
+database. Starting the script without arguments will launch it in the development environment.
+Passing an argument will specify a different environment, like <tt>script/console production</tt>.
+
+To reload your controllers and models after launching the console run <tt>reload!</tt>
+
+
+== Description of Contents
+
+app
+  Holds all the code that's specific to this particular application.
+
+app/controllers
+  Holds controllers that should be named like weblogs_controller.rb for
+  automated URL mapping. All controllers should descend from ApplicationController
+  which itself descends from ActionController::Base.
+
+app/models
+  Holds models that should be named like post.rb.
+  Most models will descend from ActiveRecord::Base.
+
+app/views
+  Holds the template files for the view that should be named like
+  weblogs/index.erb for the WeblogsController#index action. All views use eRuby
+  syntax.
+
+app/views/layouts
+  Holds the template files for layouts to be used with views. This models the common
+  header/footer method of wrapping views. In your views, define a layout using the
+  <tt>layout :default</tt> and create a file named default.erb. Inside default.erb,
+  call <% yield %> to render the view using this layout.
+
+app/helpers
+  Holds view helpers that should be named like weblogs_helper.rb. These are generated
+  for you automatically when using script/generate for controllers. Helpers can be used to
+  wrap functionality for your views into methods.
+
+config
+  Configuration files for the Rails environment, the routing map, the database, and other dependencies.
+
+db
+  Contains the database schema in schema.rb.  db/migrate contains all
+  the sequence of Migrations for your schema.
+
+doc
+  This directory is where your application documentation will be stored when generated
+  using <tt>rake doc:app</tt>
+
+lib
+  Application specific libraries. Basically, any kind of custom code that doesn't
+  belong under controllers, models, or helpers. This directory is in the load path.
+
+public
+  The directory available for the web server. Contains subdirectories for images, stylesheets,
+  and javascripts. Also contains the dispatchers and the default HTML files. This should be
+  set as the DOCUMENT_ROOT of your web server.
+
+script
+  Helper scripts for automation and generation.
+
+test
+  Unit and functional tests along with fixtures. When using the script/generate scripts, template
+  test files will be generated for you and placed in this directory.
+
+vendor
+  External libraries that the application depends on. Also includes the plugins subdirectory.
+  This directory is in the load path.
