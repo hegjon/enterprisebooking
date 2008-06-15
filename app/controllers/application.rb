@@ -30,10 +30,9 @@ class ApplicationController < ActionController::Base
       end
     end
     if @authenticated_user != "jonny"
-      request_http_basic_authentication("Enterprise booking")      
-      false
+      return false
     else
-      true
+      return true
     end
   end  
   
