@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
       end
     end
     if @authenticated_user != "jonny"
-      return false
+      raise ActiveResource::UnauthorizedAccess.new
     else
       return true
     end
