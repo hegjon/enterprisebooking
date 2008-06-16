@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
       end
     end
     if @authenticated_user != "jonny"
-      raise ActiveResource::UnauthorizedAccess.new
+      raise "Unauthorized Access"
     else
       return true
     end
@@ -39,11 +39,11 @@ class ApplicationController < ActionController::Base
   def rescue_action_in_public(exception)
     case exception
     when ActiveRecord::RecordNotFound
-      render :text => exception, :status => "404 Not found"
+      render :text => exception, :status => '404 Not found'
     when ActiveRecord::StatementInvalid
-      render :text => exception, :status => "409 Conflict"
+      render :text => exception, :status => '409 Conflict'
     else
-      render :html => '<html><body><h1>500 Internal Server Error</h1></body></html>', :status => '500 Internal Server Error'
+      render :text => exception, :status => '500 Internal Server Error'
     end    
   end
   
