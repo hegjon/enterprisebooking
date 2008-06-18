@@ -10,6 +10,18 @@ class BookingController < ApplicationController
     ok bookings
   end
   
+  def list_by_arrival
+    #TODO dont use the index
+    bookings = Booking.all("trunc(arrival)=trunc(?)", params[:arrival])
+    ok bookings
+  end
+  
+  def list_by_departure
+    #TODO dont use the index
+    bookings = Booking.all("trunc(departure)=trunc(?)", params[:departure])
+    ok bookings    
+  end
+  
   def create
     booking = Booking.new(params[:booking])
     booking.save!
