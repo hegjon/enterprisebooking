@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1) do
+ActiveRecord::Schema.define(:version => 20080618084315) do
 
   create_table "barracks", :force => true do |t|
     t.integer "camp_id", :limit => 11, :null => false
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer  "person_id", :limit => 11
     t.datetime "arrival",                 :null => false
     t.datetime "departure",               :null => false
+    t.integer  "status",    :limit => 11, :null => false
   end
 
   add_index "bookings", ["person_id"], :name => "index_bookings_on_person_id"
@@ -31,8 +32,10 @@ ActiveRecord::Schema.define(:version => 1) do
   add_index "bookings", ["arrival", "departure"], :name => "index_bookings_on_arrival_and_departure"
 
   create_table "camps", :force => true do |t|
-    t.string "code", :limit => 10, :null => false
-    t.string "name"
+    t.string  "code",  :limit => 10,                 :null => false
+    t.string  "name"
+    t.string  "test",  :limit => 100
+    t.integer "asfff", :limit => 11,  :default => 0
   end
 
   add_index "camps", ["code"], :name => "index_camps_on_code", :unique => true
@@ -52,9 +55,16 @@ ActiveRecord::Schema.define(:version => 1) do
 
   add_index "people", ["company_id"], :name => "index_people_on_company_id"
 
+  create_table "reservations", :force => true do |t|
+    t.integer "person_id", :limit => 11
+    t.integer "room_id",   :limit => 11
+  end
+
   create_table "rooms", :force => true do |t|
-    t.integer "barrack_id", :limit => 11, :null => false
-    t.string  "code",       :limit => 10, :null => false
+    t.integer "barrack_id", :limit => 11,                :null => false
+    t.string  "code",       :limit => 10,                :null => false
+    t.integer "status",     :limit => 11,                :null => false
+    t.integer "beds",       :limit => 11, :default => 1, :null => false
   end
 
   add_index "rooms", ["barrack_id", "code"], :name => "index_rooms_on_barrack_id_and_code", :unique => true
