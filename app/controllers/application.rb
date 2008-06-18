@@ -1,18 +1,3 @@
-#    This file is part of EnterpriseBooking.
-#
-#    EnterpriseBooking is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    EnterpriseBooking is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with EnterpriseBooking.  If not, see <http://www.gnu.org/licenses/>.
-
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
 
@@ -28,22 +13,26 @@ class ApplicationController < ActionController::Base
       if user == "jonny" and pass == "ponny" then
         @authenticated_user = user #User.authenticated_user(user, pass)
       end
+      if @authenticated_user == "jonny"
+        return true
+      end
+        
+      raise Unauthorized.new(user, pass)
     end
-    if @authenticated_user != "jonny"
-      raise "Unauthorized Access"
-    else
-      return true
-    end
+    
+    raise Unauthorized.new
   end  
   
   def rescue_action_in_public(exception)
     case exception
+    when Unauthorized
+      render :status => '401 Unauthorized', :text => "User: #{exception.username}\nPassword: #{exception.password}"
     when ActiveRecord::RecordNotFound
-      render :text => exception, :status => '404 Not found'
+      render :status => '404 Not found', :text => exception
     when ActiveRecord::StatementInvalid
-      render :text => exception, :status => '409 Conflict'
+      render :status => '409 Conflict', :text => exception
     else
-      render :text => exception, :status => '500 Internal Server Error'
+      render :status => '500 Internal Server Error', :text => exception
     end    
   end
   
