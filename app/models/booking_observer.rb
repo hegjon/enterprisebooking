@@ -2,6 +2,7 @@ class BookingObserver < ActiveRecord::Observer
   def before_save(booking)
     time_conflict(booking)
     active_conflict(booking)
+    reservation_conflict(booking)
   end
   
   private
@@ -25,9 +26,17 @@ class BookingObserver < ActiveRecord::Observer
   def active_conflict(booking)
     if booking.status == 20
       b = Booking.first(:conditions => ['id != ifnull(?, -1) and person_id=? and status=20', 
-        booking.id, booking.person_id])
+          booking.id, booking.person_id])
       
       raise "Person already active" if b
     end
   end
+  
+  def reservation_conflict(booking)
+    room = booking.room
+    if booking.room_id_changed? && room  && !room.reservations.empty?
+      raise "Reservaton conflict" unless room.reservations.include?(booking.person);
+    end
+  end
+  
 end
