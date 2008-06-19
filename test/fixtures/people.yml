@@ -9,3 +9,16 @@ per:
   first_name: Per
   last_name: Nesepirker
   company: jonnyware
+
+pål:
+  id: 3
+  first_name: Pål
+  last_name: Nesepirker
+  company: jonnyware
+
+espen:
+  id: 4
+  first_name: Espen
+  last_name: Nesepirker
+  company: jonnyware
+
