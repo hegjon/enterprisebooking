@@ -1,7 +1,9 @@
 jonnyware:
- code: JON
- name: jonnyware.com
+  id: 1
+  code: JON
+  name: jonnyware.com
 
-firma1:
- code: FIRMA1
- name: Firma 1
+tullefirma:
+  id: 2
+  code: TULL
+  name: Tullefirma
