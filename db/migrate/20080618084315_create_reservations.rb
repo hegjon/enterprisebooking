@@ -5,7 +5,7 @@ class CreateReservations < ActiveRecord::Migration
       t.references :room
     end
     
-    add_index(:reservatios, [:person, :room], :unique => true)
+    add_index(:reservations, [:person_id, :room_id], :unique => true)
   end
 
   def self.down
