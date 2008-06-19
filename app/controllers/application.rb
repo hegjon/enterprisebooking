@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
   end
   
   def destroyed
-    respond_nothing
+    respond_nothing('200 OK')
   end
   
   private
@@ -66,8 +66,8 @@ class ApplicationController < ActionController::Base
     "/#{entity.class.to_s.downcase}/#{entity.id}"
   end
   
-  def respond_nothing
-    render(:nothing => true, :status => '200 OK')
+  def respond_nothing(status)
+    render(:nothing => true, :status => status)
   end
   
   def respond_format(entity, status)
