@@ -32,10 +32,8 @@ ActiveRecord::Schema.define(:version => 20080618084315) do
   add_index "bookings", ["arrival", "departure"], :name => "index_bookings_on_arrival_and_departure"
 
   create_table "camps", :force => true do |t|
-    t.string  "code",  :limit => 10,                 :null => false
-    t.string  "name"
-    t.string  "test",  :limit => 100
-    t.integer "asfff", :limit => 11,  :default => 0
+    t.string "code", :limit => 10, :null => false
+    t.string "name"
   end
 
   add_index "camps", ["code"], :name => "index_camps_on_code", :unique => true
@@ -59,6 +57,8 @@ ActiveRecord::Schema.define(:version => 20080618084315) do
     t.integer "person_id", :limit => 11
     t.integer "room_id",   :limit => 11
   end
+
+  add_index "reservations", ["person_id", "room_id"], :name => "index_reservations_on_person_id_and_room_id", :unique => true
 
   create_table "rooms", :force => true do |t|
     t.integer "barrack_id", :limit => 11,                :null => false
