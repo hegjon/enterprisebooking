@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080618084315) do
+ActiveRecord::Schema.define(:version => 20080619135738) do
 
   create_table "barracks", :force => true do |t|
     t.integer "camp_id", :limit => 11, :null => false
@@ -59,6 +59,19 @@ ActiveRecord::Schema.define(:version => 20080618084315) do
   end
 
   add_index "reservations", ["person_id", "room_id"], :name => "index_reservations_on_person_id_and_room_id", :unique => true
+
+  create_table "room_categories", :force => true do |t|
+    t.string  "name",                      :null => false
+    t.string  "abbrivation"
+    t.integer "order",       :limit => 11
+    t.integer "auto_on",     :limit => 11
+    t.integer "auto_off",    :limit => 11
+  end
+
+  create_table "room_categories_rooms", :force => true do |t|
+    t.integer "room_id",          :limit => 11
+    t.integer "room_category_id", :limit => 11
+  end
 
   create_table "rooms", :force => true do |t|
     t.integer "barrack_id", :limit => 11,                :null => false
