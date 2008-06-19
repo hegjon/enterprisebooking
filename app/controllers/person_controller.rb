@@ -10,19 +10,19 @@ class PersonController < ApplicationController
   end
 
   def create
-    person = Camp.new(params[:person])
+    person = Person.new(params[:person])
     person.save!
     created person
   end
   
   def update
-    person = Camp.find(params[:id])
+    person = Person.find(params[:id])
     person.update_attributes!(params[:person])
     updated person
   end
 
   def destroy
-    person = Camp.find(params[:id])
+    person = Person.find(params[:id])
     person.destroy
     destroyed
   end
