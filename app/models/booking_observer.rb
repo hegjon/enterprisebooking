@@ -5,6 +5,7 @@ class BookingObserver < ActiveRecord::Observer
     reservation_conflict(booking)
     
     auto_set_room_categories(booking)
+    auto_set_person_categories(booking)
   end
   
   private
@@ -41,7 +42,6 @@ class BookingObserver < ActiveRecord::Observer
     end
   end
   
-  #TODO untested
   def auto_set_room_categories(booking)
     room = booking.room
     if room && booking.status_changed?
@@ -51,6 +51,17 @@ class BookingObserver < ActiveRecord::Observer
       room.room_categories << auto_on      
       room.room_categories.delete(auto_off)
     end
+  end
+  
+  def auto_set_person_categories(booking)
+    person = booking.person
+    if person && booking.status_changed?
+      auto_on  = PersonCategory.all(:conditions => ["auto_on=?", booking.status])
+      auto_off = PersonCategory.all(:conditions => ["auto_off=?", booking.status])
+      
+      person.person_categories << auto_on      
+      person.person_categories.delete(auto_off)
+    end    
   end
   
 end
