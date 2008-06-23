@@ -1,6 +1,6 @@
 == Welcome to EnterpriseBooking server
 
-Bla bla
+Enterprise Booking is client-server-based booking system for large-scale site catering. Its goal is to simplify fast and effective booking, check-in and the overall progress.
 
 
 == Getting Started
@@ -41,22 +41,6 @@ app/controllers
 app/models
   Holds models that should be named like post.rb.
   Most models will descend from ActiveRecord::Base.
-
-app/views
-  Holds the template files for the view that should be named like
-  weblogs/index.erb for the WeblogsController#index action. All views use eRuby
-  syntax.
-
-app/views/layouts
-  Holds the template files for layouts to be used with views. This models the common
-  header/footer method of wrapping views. In your views, define a layout using the
-  <tt>layout :default</tt> and create a file named default.erb. Inside default.erb,
-  call <% yield %> to render the view using this layout.
-
-app/helpers
-  Holds view helpers that should be named like weblogs_helper.rb. These are generated
-  for you automatically when using script/generate for controllers. Helpers can be used to
-  wrap functionality for your views into methods.
 
 config
   Configuration files for the Rails environment, the routing map, the database, and other dependencies.
