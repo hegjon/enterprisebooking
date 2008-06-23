@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080619135738) do
+ActiveRecord::Schema.define(:version => 20080623103938) do
 
   create_table "barracks", :force => true do |t|
     t.integer "camp_id", :limit => 11, :null => false
@@ -53,6 +53,21 @@ ActiveRecord::Schema.define(:version => 20080619135738) do
 
   add_index "people", ["company_id"], :name => "index_people_on_company_id"
 
+  create_table "people_person_categories", :force => true do |t|
+    t.integer "person_id",          :limit => 11
+    t.integer "person_category_id", :limit => 11
+  end
+
+  add_index "people_person_categories", ["person_id", "person_category_id"], :name => "index_people_person_categories", :unique => true
+
+  create_table "person_categories", :force => true do |t|
+    t.string  "name",                      :null => false
+    t.string  "abbrivation"
+    t.integer "order",       :limit => 11
+    t.integer "auto_on",     :limit => 11
+    t.integer "auto_off",    :limit => 11
+  end
+
   create_table "reservations", :force => true do |t|
     t.integer "person_id", :limit => 11
     t.integer "room_id",   :limit => 11
@@ -72,6 +87,8 @@ ActiveRecord::Schema.define(:version => 20080619135738) do
     t.integer "room_id",          :limit => 11
     t.integer "room_category_id", :limit => 11
   end
+
+  add_index "room_categories_rooms", ["room_id", "room_category_id"], :name => "index_room_categories_room", :unique => true
 
   create_table "rooms", :force => true do |t|
     t.integer "barrack_id", :limit => 11,                :null => false
