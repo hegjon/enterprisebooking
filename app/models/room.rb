@@ -3,4 +3,5 @@ class Room < ActiveRecord::Base
   has_many :bookings
   #has_many :reservations
   has_and_belongs_to_many :reservations, :class_name => "Person",  :join_table => "reservations"
+  has_and_belongs_to_many :room_categories
 end
