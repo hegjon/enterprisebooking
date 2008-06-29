@@ -1,23 +1,19 @@
 singleroom1:
-  id: 1
   code: 001
   beds: 1
   barrack: barrack1
 
 singleroom2:
-  id: 2
   code: 002
   beds: 1
   barrack: barrack1
 
 doubleroom:
-  id: 3
   code: 003
   beds: 2
   barrack: barrack1
 
 bigroom:
-  id: 100
   code: 100
   beds: 100
   barrack: barrack1

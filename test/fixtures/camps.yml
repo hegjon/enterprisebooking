@@ -1,9 +1,7 @@
 jonny:
-  id: 1
   code: JON
   name: Jonny camp
 
 test:
-  id: 2
   code: TST
   name: Test camp

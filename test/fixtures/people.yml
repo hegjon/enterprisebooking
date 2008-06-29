@@ -1,23 +1,19 @@
 jonny:
-  id: 1
   first_name: Jonny
   last_name: Heggheim
   company: jonnyware
 
 per:
-  id: 2
   first_name: Per
   last_name: Nesepirker
   company: jonnyware
 
 pal:
-  id: 3
   first_name: Pal
   last_name: Nesepirker
   company: jonnyware
 
 espen:
-  id: 4
   first_name: Espen
   last_name: Nesepirker
   company: jonnyware
