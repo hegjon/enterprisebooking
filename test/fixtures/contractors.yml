@@ -1,0 +1,9 @@
+jonnyware:
+  code: JON
+  name: jonnyware.com
+  invoice_company: statoil
+
+tullefirma:
+  code: TULL
+  name: Tullefirma
+  invoice_company: statoil
