@@ -1,0 +1,27 @@
+jonny_jonnyware:
+  first_name: Jonny
+  last_name: Heggheim
+  profile: jonny
+  invoice_company: statoil
+  contractor: jonnyware
+
+per_jonnyware:
+  first_name: Per
+  last_name: Nesepirker
+  profile: per
+  invoice_company: statoil
+  contractor: jonnyware
+
+pal_jonnyware:
+  first_name: Pal
+  last_name: Nesepirker
+  profile: pal
+  invoice_company: statoil
+  contractor: jonnyware
+
+espen_jonnyware:
+  first_name: Espen
+  last_name: Nesepirker
+  profile: espen
+  invoice_company: statoil
+  contractor: jonnyware

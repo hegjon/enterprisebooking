@@ -1,0 +1,19 @@
+jonny:
+  code: 600001
+  first_name: Jonny
+  last_name: Heggheim
+
+per:
+  code: 600002
+  first_name: Per
+  last_name: Nesepirker
+
+pal:
+  code: 600003
+  first_name: Pal
+  last_name: Nesepirker
+
+espen:
+  code: 600004
+  first_name: Espen
+  last_name: Nesepirker
