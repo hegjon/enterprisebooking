@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080629144053) do
+ActiveRecord::Schema.define(:version => 20080630092021) do
 
   create_table "barracks", :force => true do |t|
     t.integer "camp_id", :limit => 11, :null => false
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(:version => 20080629144053) do
   add_index "barracks", ["camp_id", "code"], :name => "index_barracks_on_camp_id_and_code", :unique => true
 
   create_table "bookings", :force => true do |t|
-    t.integer  "room_id",   :limit => 11
     t.integer  "person_id", :limit => 11
     t.datetime "arrival",                 :null => false
     t.datetime "departure",               :null => false
@@ -28,7 +27,6 @@ ActiveRecord::Schema.define(:version => 20080629144053) do
   end
 
   add_index "bookings", ["person_id"], :name => "index_bookings_on_person_id"
-  add_index "bookings", ["room_id"], :name => "index_bookings_on_room_id"
   add_index "bookings", ["arrival", "departure"], :name => "index_bookings_on_arrival_and_departure"
 
   create_table "camps", :force => true do |t|
@@ -65,6 +63,13 @@ ActiveRecord::Schema.define(:version => 20080629144053) do
   end
 
   add_index "people_person_categories", ["person_id", "person_category_id"], :name => "index_people_person_categories", :unique => true
+
+  create_table "periodes", :force => true do |t|
+    t.datetime "from",                     :null => false
+    t.datetime "to",                       :null => false
+    t.integer  "room_id",    :limit => 11
+    t.integer  "booking_id", :limit => 11
+  end
 
   create_table "person_categories", :force => true do |t|
     t.string  "name",                      :null => false

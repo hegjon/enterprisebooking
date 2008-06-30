@@ -1,55 +1,112 @@
 class Base < ActiveRecord::Migration
   def self.up
-    create_table :camps do |t|
-      t.string :code, :null => false, :limit => 10
-      t.string :name
-    end
-    
-    create_table :barracks do |t|
-      t.references :camp, :null => false
-      t.string :code, :null => false, :limit => 10
-      t.string :name
-    end
-    
-    create_table :rooms do |t|
-      t.references :barrack, :null => false
-      t.string :code, :null => false, :limit => 10
-    end
-    
-    create_table :companies do |t|
-      t.string :code, :null => false, :limit => 10
-      t.string:name, :null => false
+    create_table "barracks", :force => true do |t|
+      t.integer "camp_id", :limit => 11, :null => false
+      t.string  "code",    :limit => 10, :null => false
+      t.string  "name"
     end
 
-    create_table :people do |t|
-      t.references :company, :null => false
-      t.string :first_name
-      t.string :last_name
+    add_index "barracks", ["camp_id", "code"], :name => "index_barracks_on_camp_id_and_code", :unique => true
+
+    create_table "bookings", :force => true do |t|
+      t.integer  "person_id", :limit => 11
+      t.datetime "arrival",                 :null => false
+      t.datetime "departure",               :null => false
+      t.integer  "status",    :limit => 11, :null => false
     end
-    
-    create_table :bookings do |t|
-      t.references :room
-      t.references :person
-      t.datetime :arrival, :null => false
-      t.datetime :departure, :null => false
-    end    
-    
-    add_index(:camps, :code, :unique => true)
-    add_index(:barracks, [:camp_id, :code], :unique => true)
-    add_index(:rooms, [:barrack_id, :code], :unique => true)
-    add_index(:companies, [:code], :unique => true)
-    add_index(:people, :company_id)
-    add_index(:bookings, :person_id)
-    add_index(:bookings, :room_id)
-    add_index(:bookings, [:arrival, :departure])
+
+    add_index "bookings", ["person_id"], :name => "index_bookings_on_person_id"
+    add_index "bookings", ["arrival", "departure"], :name => "index_bookings_on_arrival_and_departure"
+
+    create_table "camps", :force => true do |t|
+      t.string "code", :limit => 10, :null => false
+      t.string "name"
+    end
+
+    add_index "camps", ["code"], :name => "index_camps_on_code", :unique => true
+
+    create_table "contractors", :force => true do |t|
+      t.string  "code",               :limit => 10, :null => false
+      t.string  "name",                             :null => false
+      t.integer "invoice_company_id", :limit => 11
+    end
+
+    add_index "contractors", ["code"], :name => "index_companies_on_code", :unique => true
+
+    create_table "invoice_companies", :force => true do |t|
+      t.string "code", :limit => 10, :null => false
+      t.string "name",               :null => false
+    end
+
+    create_table "people", :force => true do |t|
+      t.integer "company_id", :limit => 11, :null => false
+      t.string  "first_name"
+      t.string  "last_name"
+    end
+
+    add_index "people", ["company_id"], :name => "index_people_on_company_id"
+
+    create_table "people_person_categories", :force => true do |t|
+      t.integer "person_id",          :limit => 11
+      t.integer "person_category_id", :limit => 11
+    end
+
+    add_index "people_person_categories", ["person_id", "person_category_id"], :name => "index_people_person_categories", :unique => true
+
+    create_table "periodes", :force => true do |t|
+      t.datetime "from",                     :null => false
+      t.datetime "to",                       :null => false
+      t.integer  "room_id",    :limit => 11
+      t.integer  "booking_id", :limit => 11
+    end
+
+    create_table "person_categories", :force => true do |t|
+      t.string  "name",                      :null => false
+      t.string  "abbrivation"
+      t.integer "order",       :limit => 11
+      t.integer "auto_on",     :limit => 11
+      t.integer "auto_off",    :limit => 11
+    end
+
+    create_table "reservations", :force => true do |t|
+      t.integer "person_id", :limit => 11
+      t.integer "room_id",   :limit => 11
+    end
+
+    add_index "reservations", ["person_id", "room_id"], :name => "index_reservations_on_person_id_and_room_id", :unique => true
+
+    create_table "room_categories", :force => true do |t|
+      t.string  "name",                      :null => false
+      t.string  "abbrivation"
+      t.integer "order",       :limit => 11
+      t.integer "auto_on",     :limit => 11
+      t.integer "auto_off",    :limit => 11
+    end
+
+    create_table "room_categories_rooms", :force => true do |t|
+      t.integer "room_id",          :limit => 11
+      t.integer "room_category_id", :limit => 11
+    end
+
+    add_index "room_categories_rooms", ["room_id", "room_category_id"], :name => "index_room_categories_room", :unique => true
+
+    create_table "rooms", :force => true do |t|
+      t.integer "barrack_id", :limit => 11,                :null => false
+      t.string  "code",       :limit => 10,                :null => false
+      t.integer "status",     :limit => 11,                :null => false
+      t.integer "beds",       :limit => 11, :default => 1, :null => false
+    end
+
+    add_index "rooms", ["barrack_id", "code"], :name => "index_rooms_on_barrack_id_and_code", :unique => true
+
+    create_table "subcontractors", :force => true do |t|
+      t.string  "code",          :limit => 10, :null => false
+      t.string  "name",                        :null => false
+      t.integer "contractor_id", :limit => 11, :null => false
+    end
   end
 
   def self.down
-    drop_table :bookings
-    drop_table :people
-    drop_table :companies
-    drop_table :rooms
-    drop_table :barracks
-    drop_table :camps    
+
   end
 end
