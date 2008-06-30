@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CodeObserverTest < Test::Unit::TestCase
   def test_long_code
-    company = Company.new
+    company = Contractor.new
     company.code = "long_code_name_aaaaaaaaa"
     company.name = "company"
 
@@ -18,7 +18,7 @@ class CodeObserverTest < Test::Unit::TestCase
   end
 
   def test_company_upper
-    company = Company.new
+    company = Contractor.new
     company.code = "asd2"
     company.name = "Camp"
     company.save!
