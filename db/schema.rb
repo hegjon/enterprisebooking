@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080623103938) do
+ActiveRecord::Schema.define(:version => 20080629144053) do
 
   create_table "barracks", :force => true do |t|
     t.integer "camp_id", :limit => 11, :null => false
@@ -38,12 +38,18 @@ ActiveRecord::Schema.define(:version => 20080623103938) do
 
   add_index "camps", ["code"], :name => "index_camps_on_code", :unique => true
 
-  create_table "companies", :force => true do |t|
+  create_table "contractors", :force => true do |t|
+    t.string  "code",               :limit => 10, :null => false
+    t.string  "name",                             :null => false
+    t.integer "invoice_company_id", :limit => 11
+  end
+
+  add_index "contractors", ["code"], :name => "index_companies_on_code", :unique => true
+
+  create_table "invoice_companies", :force => true do |t|
     t.string "code", :limit => 10, :null => false
     t.string "name",               :null => false
   end
-
-  add_index "companies", ["code"], :name => "index_companies_on_code", :unique => true
 
   create_table "people", :force => true do |t|
     t.integer "company_id", :limit => 11, :null => false
@@ -98,5 +104,11 @@ ActiveRecord::Schema.define(:version => 20080623103938) do
   end
 
   add_index "rooms", ["barrack_id", "code"], :name => "index_rooms_on_barrack_id_and_code", :unique => true
+
+  create_table "subcontractors", :force => true do |t|
+    t.string  "code",          :limit => 10, :null => false
+    t.string  "name",                        :null => false
+    t.integer "contractor_id", :limit => 11, :null => false
+  end
 
 end

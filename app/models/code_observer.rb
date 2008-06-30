@@ -2,7 +2,9 @@ class CodeObserver < ActiveRecord::Observer
   observe :camp,
           :barrack,
           :room,
-          :company
+          :invoice_company,
+          :contractor,
+          :subcontractor
   
   def before_save(record)
     record.code.upcase!
