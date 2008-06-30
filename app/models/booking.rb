@@ -1,5 +1,6 @@
 class Booking < ActiveRecord::Base
-  belongs_to :room
+  has_many :periodes
+  has_many :rooms, :through => :periodes
   belongs_to :person
   
   belongs_to :invoice_company

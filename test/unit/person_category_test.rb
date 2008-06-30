@@ -10,9 +10,13 @@ class PersonCategoryTest < ActiveSupport::TestCase
     b = Booking.new
     b.arrival = Time.now
     b.departure = Time.now + 60*60*24
-    b.room = @singleroom1
     b.person = @jonny
     b.status = 10
+    b.periodes << Periode.new do |p|
+      p.room = @singleroom1
+      p.from = b.arrival
+      p.to   = b.departure
+    end    
     b.save!
     
     assert(@jonny.person_categories.include?(auto_on))
@@ -26,11 +30,15 @@ class PersonCategoryTest < ActiveSupport::TestCase
     b = Booking.new
     b.arrival = Time.now
     b.departure = Time.now + 60*60*24
-    b.room = @singleroom1
     b.person = @jonny
     b.status = 10
+    b.periodes << Periode.new do |p|
+      p.room = @singleroom1
+      p.from = b.arrival
+      p.to   = b.departure
+    end    
     b.save!
 
-    assert (!@jonny.person_categories.include?(auto_off))
+    assert(!@jonny.person_categories.include?(auto_off))
   end
 end

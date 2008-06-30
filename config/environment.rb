@@ -65,5 +65,6 @@ Rails::Initializer.run do |config|
   # Observers
   config.active_record.observers = 
     :code_observer, 
-    :booking_observer
+    :booking_observer,
+    :periode_observer
 end

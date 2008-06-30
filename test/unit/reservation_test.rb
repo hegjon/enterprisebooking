@@ -15,10 +15,15 @@ class ReservationTest < ActiveSupport::TestCase
     b.person = @per
     b.arrival = Time.now
     b.departure = Time.now + 60*60*24
-    b.room = @bigroom
+    b.periodes << Periode.new do |p|
+      p.room = @bigroom
+      p.from = b.arrival
+      p.to   = b.departure
+    end
+
     b.status = 10
 #TODO !!!!! fix the test!!!!!!    
-#    assert_nothing_thrown { b.save }
+#    assert_nothing_thrown { b.save! }
   end
   
   def test_person_is_not_allowed
@@ -26,10 +31,14 @@ class ReservationTest < ActiveSupport::TestCase
     b.person_id = 4 #@espen
     b.arrival = Time.now
     b.departure = Time.now + 60*60*24
-    b.room = @bigroom
+    b.periodes << Periode.new do |p|
+      p.room = @bigroom
+      p.from = b.arrival
+      p.to   = b.departure
+    end
     b.status = 10
 #TODO !!!!! fix the test!!!!!!    
-#    assert_raise(RuntimeError) { b.save }         
+#    assert_raise(RuntimeError) { b.save! }         
   end
   
   def test_person_using_other_room
@@ -37,9 +46,13 @@ class ReservationTest < ActiveSupport::TestCase
     b.person = @pal
     b.arrival = Time.now
     b.departure = Time.now + 60*60*24
-    b.room = @singleroom
+    b.periodes << Periode.new do |p|
+      p.room = @singleroom1
+      p.from = b.arrival
+      p.to   = b.departure
+    end
     b.status = 10
-    assert_nothing_thrown { b.save }    
+    assert_nothing_thrown { b.save! }    
   end
   
 end
