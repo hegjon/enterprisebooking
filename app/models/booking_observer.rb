@@ -38,7 +38,7 @@ class BookingObserver < ActiveRecord::Observer
   def reservation_conflict(booking)
     room = booking.room
     if booking.room_id_changed? && room && !room.reservations.empty?
-      raise "Reservaton conflict" unless room.reservations.include?(booking.person);
+      raise "Reservation conflict" unless room.reservations.include?(booking.person);
     end
   end
   
