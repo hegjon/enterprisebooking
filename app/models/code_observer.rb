@@ -6,10 +6,12 @@ class CodeObserver < ActiveRecord::Observer
           :contractor,
           :subcontractor
   
-  def before_save(record)
-    record.code.upcase!
+  def before_save(record)    
+    if code = record.code
+      code.upcase!
     
-    raise "Code to long" if record.code.length > 10
+      raise "Code to long" if code.length > 10
+    end
   end
   
 end
