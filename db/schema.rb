@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080630092021) do
+ActiveRecord::Schema.define(:version => 1) do
 
   create_table "barracks", :force => true do |t|
     t.integer "camp_id", :limit => 11, :null => false
@@ -20,13 +20,13 @@ ActiveRecord::Schema.define(:version => 20080630092021) do
   add_index "barracks", ["camp_id", "code"], :name => "index_barracks_on_camp_id_and_code", :unique => true
 
   create_table "bookings", :force => true do |t|
-    t.integer  "person_id", :limit => 11
-    t.datetime "arrival",                 :null => false
-    t.datetime "departure",               :null => false
-    t.integer  "status",    :limit => 11, :null => false
+    t.integer  "profile_id", :limit => 11
+    t.datetime "arrival",                  :null => false
+    t.datetime "departure",                :null => false
+    t.integer  "status",     :limit => 11, :null => false
   end
 
-  add_index "bookings", ["person_id"], :name => "index_bookings_on_person_id"
+  add_index "bookings", ["profile_id"], :name => "index_bookings_on_profile_id"
   add_index "bookings", ["arrival", "departure"], :name => "index_bookings_on_arrival_and_departure"
 
   create_table "camps", :force => true do |t|
@@ -35,6 +35,20 @@ ActiveRecord::Schema.define(:version => 20080630092021) do
   end
 
   add_index "camps", ["code"], :name => "index_camps_on_code", :unique => true
+
+  create_table "company_profiles", :force => true do |t|
+    t.integer "profile_id",         :limit => 11
+    t.integer "invoice_company_id", :limit => 11, :null => false
+    t.integer "contractor_id",      :limit => 11, :null => false
+    t.integer "subcontractor_id",   :limit => 11
+    t.string  "code"
+    t.string  "first_name"
+    t.string  "last_name"
+  end
+
+  add_index "company_profiles", ["invoice_company_id"], :name => "index_company_profiles_on_invoice_company_id"
+  add_index "company_profiles", ["contractor_id"], :name => "index_company_profiles_on_contractor_id"
+  add_index "company_profiles", ["subcontractor_id"], :name => "index_company_profiles_on_subcontractor_id"
 
   create_table "contractors", :force => true do |t|
     t.string  "code",               :limit => 10, :null => false
@@ -49,29 +63,14 @@ ActiveRecord::Schema.define(:version => 20080630092021) do
     t.string "name",               :null => false
   end
 
-  create_table "people", :force => true do |t|
-    t.integer "company_id", :limit => 11, :null => false
-    t.string  "first_name"
-    t.string  "last_name"
-  end
-
-  add_index "people", ["company_id"], :name => "index_people_on_company_id"
-
-  create_table "people_person_categories", :force => true do |t|
-    t.integer "person_id",          :limit => 11
-    t.integer "person_category_id", :limit => 11
-  end
-
-  add_index "people_person_categories", ["person_id", "person_category_id"], :name => "index_people_person_categories", :unique => true
-
   create_table "periodes", :force => true do |t|
     t.datetime "from",                     :null => false
     t.datetime "to",                       :null => false
-    t.integer  "room_id",    :limit => 11
-    t.integer  "booking_id", :limit => 11
+    t.integer  "room_id",    :limit => 11, :null => false
+    t.integer  "booking_id", :limit => 11, :null => false
   end
 
-  create_table "person_categories", :force => true do |t|
+  create_table "profile_categories", :force => true do |t|
     t.string  "name",                      :null => false
     t.string  "abbrivation"
     t.integer "order",       :limit => 11
@@ -79,12 +78,25 @@ ActiveRecord::Schema.define(:version => 20080630092021) do
     t.integer "auto_off",    :limit => 11
   end
 
-  create_table "reservations", :force => true do |t|
-    t.integer "person_id", :limit => 11
-    t.integer "room_id",   :limit => 11
+  create_table "profile_categories_profiles", :force => true do |t|
+    t.integer "profile_id",          :limit => 11
+    t.integer "profile_category_id", :limit => 11
   end
 
-  add_index "reservations", ["person_id", "room_id"], :name => "index_reservations_on_person_id_and_room_id", :unique => true
+  add_index "profile_categories_profiles", ["profile_id", "profile_category_id"], :name => "index_profile_profile_categories", :unique => true
+
+  create_table "profiles", :force => true do |t|
+    t.string "code"
+    t.string "first_name"
+    t.string "last_name"
+  end
+
+  create_table "reservations", :force => true do |t|
+    t.integer "profile_id", :limit => 11
+    t.integer "room_id",    :limit => 11
+  end
+
+  add_index "reservations", ["profile_id", "room_id"], :name => "index_reservations_on_profile_id_and_room_id", :unique => true
 
   create_table "room_categories", :force => true do |t|
     t.string  "name",                      :null => false

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RoomCategoryTest < ActiveSupport::TestCase
-  fixtures :rooms, :people
+  fixtures :rooms, :profiles
   
   def test_auto_on
     auto_on = RoomCategory.new(:name => "auto_on", :abbrivation => "ON", :order => 1, :auto_on => 10)  
@@ -10,7 +10,7 @@ class RoomCategoryTest < ActiveSupport::TestCase
     b = Booking.new
     b.arrival = Time.now
     b.departure = Time.now + 60*60*24
-    b.person = @jonny
+    b.profile = @jonny
     b.periodes << Periode.new do |p|
       p.room = @singleroom1
       p.from = b.arrival
@@ -30,7 +30,7 @@ class RoomCategoryTest < ActiveSupport::TestCase
     b = Booking.new
     b.arrival = Time.now
     b.departure = Time.now + 60*60*24
-    b.person = @jonny
+    b.profile = @jonny
     b.periodes << Periode.new do |p|
       p.room = @singleroom1
       p.from = b.arrival

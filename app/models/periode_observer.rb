@@ -7,6 +7,8 @@ class PeriodeObserver < ActiveRecord::Observer
     auto_set_room_categories(periode)
   end
   
+  private
+  
   def time_conflict(periode)
     count = Periode.count(:conditions => ['id != ifnull(?, -1) and room_id=? and `from` < ? and `to` > ?', 
         periode.id, periode.room_id, periode.to, periode.from])    

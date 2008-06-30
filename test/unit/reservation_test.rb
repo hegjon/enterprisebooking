@@ -1,18 +1,18 @@
 require 'test_helper'
 
 class ReservationTest < ActiveSupport::TestCase
-  fixtures :rooms, :people
+  fixtures :rooms, :profiles
   
   def setup
-    Reservation.new({:person => @pal, :room => @bigroom}).save!
-    Reservation.new({:person => @per, :room => @bigroom}).save!
+    Reservation.new({:profile => @pal, :room => @bigroom}).save!
+    Reservation.new({:profile => @per, :room => @bigroom}).save!
     
     assert_equal(2, @bigroom.reservations.size)    
   end
     
   def test_person_is_allowed    
     b = Booking.new
-    b.person = @per
+    b.profile = @per
     b.arrival = Time.now
     b.departure = Time.now + 60*60*24
     b.periodes << Periode.new do |p|
@@ -28,7 +28,7 @@ class ReservationTest < ActiveSupport::TestCase
   
   def test_person_is_not_allowed
     b = Booking.new
-    b.person_id = 4 #@espen
+    b.profile = @espen
     b.arrival = Time.now
     b.departure = Time.now + 60*60*24
     b.periodes << Periode.new do |p|
@@ -43,7 +43,7 @@ class ReservationTest < ActiveSupport::TestCase
   
   def test_person_using_other_room
     b = Booking.new
-    b.person = @pal
+    b.profile = @pal
     b.arrival = Time.now
     b.departure = Time.now + 60*60*24
     b.periodes << Periode.new do |p|

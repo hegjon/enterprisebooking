@@ -9,13 +9,13 @@ class Base < ActiveRecord::Migration
     add_index "barracks", ["camp_id", "code"], :name => "index_barracks_on_camp_id_and_code", :unique => true
 
     create_table "bookings", :force => true do |t|
-      t.integer  "person_id", :limit => 11
+      t.integer  "profile_id", :limit => 11
       t.datetime "arrival",                 :null => false
       t.datetime "departure",               :null => false
       t.integer  "status",    :limit => 11, :null => false
     end
 
-    add_index "bookings", ["person_id"], :name => "index_bookings_on_person_id"
+    add_index "bookings", ["profile_id"], :name => "index_bookings_on_profile_id"
     add_index "bookings", ["arrival", "departure"], :name => "index_bookings_on_arrival_and_departure"
 
     create_table "camps", :force => true do |t|
@@ -38,29 +38,43 @@ class Base < ActiveRecord::Migration
       t.string "name",               :null => false
     end
 
-    create_table "people", :force => true do |t|
-      t.integer "company_id", :limit => 11, :null => false
-      t.string  "first_name"
-      t.string  "last_name"
+    create_table :profiles do |t|      
+      t.string :code
+      t.string :first_name
+      t.string :last_name      
     end
 
-    add_index "people", ["company_id"], :name => "index_people_on_company_id"
+    create_table :company_profiles do |t|
+      t.references :profile
+      t.references :invoice_company, :null => false
+      t.references :contractor, :null => false
+      t.references :subcontractor
 
-    create_table "people_person_categories", :force => true do |t|
-      t.integer "person_id",          :limit => 11
-      t.integer "person_category_id", :limit => 11
+      t.string :code
+      t.string :first_name
+      t.string :last_name            
     end
 
-    add_index "people_person_categories", ["person_id", "person_category_id"], :name => "index_people_person_categories", :unique => true
+    add_index :company_profiles, ["invoice_company_id"]
+    add_index :company_profiles, ["contractor_id"]
+    add_index :company_profiles, ["subcontractor_id"]
+    
+    
+    create_table :profile_categories_profiles do |t|
+      t.integer "profile_id",          :limit => 11
+      t.integer "profile_category_id", :limit => 11
+    end
+
+    add_index :profile_categories_profiles, ["profile_id", "profile_category_id"], :name => "index_profile_profile_categories", :unique => true
 
     create_table "periodes", :force => true do |t|
       t.datetime "from",                     :null => false
       t.datetime "to",                       :null => false
-      t.integer  "room_id",    :limit => 11
-      t.integer  "booking_id", :limit => 11
+      t.integer  "room_id",    :limit => 11, :null => false
+      t.integer  "booking_id", :limit => 11, :null => false
     end
 
-    create_table "person_categories", :force => true do |t|
+    create_table "profile_categories", :force => true do |t|
       t.string  "name",                      :null => false
       t.string  "abbrivation"
       t.integer "order",       :limit => 11
@@ -69,11 +83,11 @@ class Base < ActiveRecord::Migration
     end
 
     create_table "reservations", :force => true do |t|
-      t.integer "person_id", :limit => 11
+      t.integer "profile_id", :limit => 11
       t.integer "room_id",   :limit => 11
     end
 
-    add_index "reservations", ["person_id", "room_id"], :name => "index_reservations_on_person_id_and_room_id", :unique => true
+    add_index "reservations", ["profile_id", "room_id"], :name => "index_reservations_on_profile_id_and_room_id", :unique => true
 
     create_table "room_categories", :force => true do |t|
       t.string  "name",                      :null => false

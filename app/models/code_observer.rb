@@ -6,7 +6,7 @@ class CodeObserver < ActiveRecord::Observer
           :contractor,
           :subcontractor
   
-  def before_save(record)    
+  def before_save(record)
     if code = record.code
       code.upcase!
     
