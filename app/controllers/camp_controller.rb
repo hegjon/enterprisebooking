@@ -1,4 +1,11 @@
 class CampController < ApplicationController
+
+  def authorize
+    return if %w{list show}.include?(action_name) 
+    
+    raise Unauthorized if !is_reseptionist_manager
+  end
+  
   def list
     camps = Camp.all
     ok camps
@@ -9,7 +16,7 @@ class CampController < ApplicationController
     ok camp
   end
 
-  def create
+  def create    
     camp = Camp.new(params[:camp])
     camp.save!
     created camp
