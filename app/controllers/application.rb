@@ -1,46 +1,63 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
 
-  # See ActionController::RequestForgeryProtection for details
-  # Uncomment the :secret if you're not using the cookie session store
-  protect_from_forgery # :secret => '1948db2464074b482705f0a5753118dd'
+  before_filter :authenticate, :authorize 
 
-  before_filter :authenticate  
+  private
   
   def authenticate    
     @authenticated_user = nil
     authenticate_with_http_basic do |user, pass|
-      if user == "jonny" and pass == "ponny" then
-        @authenticated_user = user #User.authenticated_user(user, pass)
-      end
-      if @authenticated_user == "jonny"
-        return true
-      end
-        
-      raise Unauthorized.new(user, pass)
+      @authenticated_user = User.first(:conditions => {:username => user, :password => Digest::SHA1.hexdigest(pass)})
+
+      return true if @authenticated_user
+
+      raise Unauthenticated.new(user, pass)
     end
     
-    raise Unauthorized.new
-  end  
-  
-  def rescue_action_in_public(exception)
-    case exception
-    when Unauthorized
-      render :status => '401 Unauthorized', :text => "User: #{exception.username}\nPassword: #{exception.password}"
-    when ActiveRecord::RecordNotFound
-      render :status => '404 Not found', :text => exception
-    when ActiveRecord::StatementInvalid
-      render :status => '409 Conflict', :text => exception
-    else
-      render :status => '500 Internal Server Error', :text => exception
-    end    
+    raise Unauthenticated.new
   end
   
-  def local_request?
-    false
+  def is_administrator
+    @authenticated_user.instance_of?(Administrator)
+  end
+  
+  def is_receptionist_user
+    @authenticated_user.instance_of?(ReceptionistUser)
+  end
+  
+  def is_receptionist_manager
+    @authenticated_user.instance_of?(ReceptionistManager)
+  end
+  
+  def is_reseptionist
+    is_reseptionist_user || is_reseptionist_manager
+  end
+  
+  def rescue_action_with_handler(exception)
+    case exception
+    when Unauthenticated
+      render :status => '401 Unauthorized', :text => "Username/password not accepted!\n\nUser: #{exception.username}\nPassword: #{exception.password}"
+    when Unauthorized
+      render :status => '403 Forbidden', :text => "Operation not allowed\n\nController: #{controller_name}\nAction: #{action_name}"
+    when ActiveRecord::RecordNotFound
+      render :status => '404 Not found', :text => exception.to_s
+    when ActiveRecord::StatementInvalid
+      render :status => '409 Conflict', :text => exception.to_s
+    else
+      render :status => '500 Internal Server Error', :text => exception.to_s
+      raise exception
+    end
+
+    logger.fatal(exception)
   end
   
   protected
+
+  #must be overriden in every controller!
+  def authorize
+    raise Unauthorized
+  end
   
   def ok(entity)
     respond_format(entity, '200 OK')  
