@@ -1,4 +1,10 @@
 class BarrackController < ApplicationController
+  def authorize
+    return if receptionist_user? && readonly_action?
+    return if reseptionist_manager?
+    
+    super
+  end
   
   def list
     barracks = Barrack.all

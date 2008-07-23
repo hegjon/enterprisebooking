@@ -107,7 +107,7 @@ class Base < ActiveRecord::Migration
     create_table "rooms", :force => true do |t|
       t.integer "barrack_id", :limit => 11,                :null => false
       t.string  "code",       :limit => 10,                :null => false
-      t.integer "status",     :limit => 11,                :null => false
+      t.integer "status",     :limit => 11, :default => 1, :null => false
       t.integer "beds",       :limit => 11, :default => 1, :null => false
     end
 

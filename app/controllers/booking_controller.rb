@@ -1,4 +1,10 @@
 class BookingController < ApplicationController
+  def authorize    
+    return if receptionist?
+    
+    super
+  end
+  
   def list
     bookings = Booking.all
     ok bookings

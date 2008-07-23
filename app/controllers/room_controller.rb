@@ -1,4 +1,17 @@
 class RoomController < ApplicationController
+  def authorize
+    return if receptionist_user? && readonly_action?
+    return if receptionist_manager?
+
+    #can only update status!
+    if receptionist_user? && update_action?
+      params[:room].delete_if { |param| param != "status" }
+      return
+    end
+    
+    super
+  end
+  
   def list
     rooms = Room.all
     ok rooms
@@ -24,6 +37,7 @@ class RoomController < ApplicationController
   def update
     room = Room.find(params[:id])
     room.update_attributes!(params[:room])
+    
     updated room
   end
   

@@ -1,4 +1,11 @@
 class CompanyProfileController < ApplicationController
+  def authorize
+    return if receptionist_user? && readonly_action?
+    return if receptionist_manager?
+    
+    super
+  end
+  
   def list
     profiles = CompanyProfile.all
     ok profiles
@@ -26,4 +33,5 @@ class CompanyProfileController < ApplicationController
     profile.destroy
     destroyed
   end
+  
 end

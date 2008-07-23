@@ -1,4 +1,10 @@
 class ProfileController < ApplicationController
+  def authorize
+    return if receptionist?
+    
+    super
+  end
+  
   def list
     profiles = Profile.all
     ok profiles

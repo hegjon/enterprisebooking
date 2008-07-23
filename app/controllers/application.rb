@@ -3,34 +3,54 @@ class ApplicationController < ActionController::Base
 
   before_filter :authenticate, :authorize 
 
-  private
+  protected
   
-  def authenticate    
-    @authenticated_user = nil
-    authenticate_with_http_basic do |user, pass|
-      @authenticated_user = User.first(:conditions => {:username => user, :password => Digest::SHA1.hexdigest(pass)})
+  #must be overriden in every controller!
+  def authorize
+    raise Unauthorized
+  end
 
-      return true if @authenticated_user
-
-      raise Unauthenticated.new(user, pass)
-    end
-    
-    raise Unauthenticated.new
+  def readonly_action?
+    action_name.match(/\Alist|show/)    
   end
   
-  def is_administrator
+  def write_action?
+    action_name.match(/create|update|destroy/)
+  end
+  
+  def create_action?
+    action_name.match('create')
+  end
+  
+  def update_action?
+    action_name.match('update')
+  end
+
+  def destroy_action?  
+    action_name.match('destroy')
+  end
+  
+  def allowed_action?(*methods)
+    methods.each do |method|
+      return action_name.match(method)
+    end
+    
+    false
+  end
+
+  def administrator?
     @authenticated_user.instance_of?(Administrator)
   end
   
-  def is_receptionist_user
+  def receptionist_user?
     @authenticated_user.instance_of?(ReceptionistUser)
   end
   
-  def is_receptionist_manager
+  def receptionist_manager?
     @authenticated_user.instance_of?(ReceptionistManager)
   end
   
-  def is_reseptionist
+  def receptionist?
     is_reseptionist_user || is_reseptionist_manager
   end
   
@@ -52,13 +72,6 @@ class ApplicationController < ActionController::Base
     logger.fatal(exception)
   end
   
-  protected
-
-  #must be overriden in every controller!
-  def authorize
-    raise Unauthorized
-  end
-  
   def ok(entity)
     respond_format(entity, '200 OK')  
   end
@@ -78,6 +91,19 @@ class ApplicationController < ActionController::Base
   end
   
   private
+
+  def authenticate    
+    @authenticated_user = nil
+    authenticate_with_http_basic do |user, pass|
+      @authenticated_user = User.first(:conditions => {:username => user, :password => Digest::SHA1.hexdigest(pass)})
+
+      return true if @authenticated_user
+
+      raise Unauthenticated.new(user, pass)
+    end
+    
+    raise Unauthenticated.new
+  end
   
   def entity_location(entity)
     "/#{entity.class.to_s.downcase}/#{entity.id}"
@@ -91,7 +117,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.xml {render :xml => entity.to_xml, :status => status}
       format.json {render :json => entity.to_json, :status => status}
-    end     
-  end  
+    end
+  end
   
 end

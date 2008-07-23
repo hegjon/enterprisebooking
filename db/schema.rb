@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1) do
+ActiveRecord::Schema.define(:version => 20080722085513) do
 
   create_table "barracks", :force => true do |t|
     t.integer "camp_id", :limit => 11, :null => false
@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(:version => 1) do
   create_table "rooms", :force => true do |t|
     t.integer "barrack_id", :limit => 11,                :null => false
     t.string  "code",       :limit => 10,                :null => false
-    t.integer "status",     :limit => 11,                :null => false
+    t.integer "status",     :limit => 11, :default => 1, :null => false
     t.integer "beds",       :limit => 11, :default => 1, :null => false
   end
 
@@ -126,6 +126,12 @@ ActiveRecord::Schema.define(:version => 1) do
     t.string  "code",          :limit => 10, :null => false
     t.string  "name",                        :null => false
     t.integer "contractor_id", :limit => 11, :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.string "username",               :null => false
+    t.string "password", :limit => 40, :null => false
+    t.string "type",                   :null => false
   end
 
 end

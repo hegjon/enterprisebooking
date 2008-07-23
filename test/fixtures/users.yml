@@ -1,0 +1,9 @@
+viggo:
+  username: viggo@iss.no
+  password: <%= Digest::SHA1.hexdigest("viggo") %>
+  type: ReceptionistManager
+
+martine:
+  username: martine@iss.no
+  password: <%= Digest::SHA1.hexdigest("martine") %>
+  type: ReceptionistUser

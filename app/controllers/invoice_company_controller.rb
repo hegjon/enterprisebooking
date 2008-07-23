@@ -1,4 +1,11 @@
 class InvoiceCompanyController < ApplicationController
+  def authorize
+    return if is_receptionist_user && readonly_action?
+    return if is_receptionist_manager
+    
+    raise Unauthorized
+  end
+  
   def list
     companies = InvoiceCompany.all
     ok companies

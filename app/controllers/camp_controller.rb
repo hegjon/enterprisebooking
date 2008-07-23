@@ -1,9 +1,9 @@
 class CampController < ApplicationController
-
   def authorize
-    return if %w{list show}.include?(action_name) 
-    
-    raise Unauthorized if !is_reseptionist_manager
+    return if receptionist_user? && readonly_action?
+    return if receptionist_manager?
+        
+    super
   end
   
   def list

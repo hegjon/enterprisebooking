@@ -1,0 +1,2 @@
+class ReceptionistManager < User
+end

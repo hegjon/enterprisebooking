@@ -1,0 +1,2 @@
+class ReceptionistUser < User
+end

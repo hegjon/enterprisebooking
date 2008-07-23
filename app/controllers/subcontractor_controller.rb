@@ -1,4 +1,11 @@
 class SubcontractorController < ApplicationController
+  def authorize
+    return if receptionist_user? && readonly_action?
+    return if receptionist_manager?
+    
+    super
+  end
+  
   def list
     companies = Subcontractor.all   
     ok companies
